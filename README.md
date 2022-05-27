@@ -1,5 +1,7 @@
 # Card Rest API
 
+Simple rest API for toggle backend test
+
 ## Requirement
 
 - Go 1.18
@@ -75,5 +77,6 @@ make migrate
 make down
 make up
 ```
-the open localhost:3000/swagger
+
+open localhost:3000/swagger
 
