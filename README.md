@@ -78,5 +78,4 @@ make down
 make up
 ```
 
-open localhost:3000/swagger
-
+open http://localhost:8080/swagger/index.html
