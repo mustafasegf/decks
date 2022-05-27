@@ -1,0 +1,213 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/decks/create": {
+            "get": {
+                "description": "Endpoint for creating a brand new deck.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "/decks"
+                ],
+                "summary": "Create a new deck",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cards",
+                        "name": "cards",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "shuffled",
+                        "name": "shuffled",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/decks.CreateNewDeckResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/decks.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/decks.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/decks/draw": {
+            "get": {
+                "description": "Endpoint for draw cards.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "/decks"
+                ],
+                "summary": "Draw a card from a deck",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "count",
+                        "name": "count",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/decks.DrawCardResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/decks.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/decks.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/decks/open": {
+            "get": {
+                "description": "Endpoint for returning whole deck.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "/decks"
+                ],
+                "summary": "Open a new deck",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/decks.OpenDeckResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/decks.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/decks.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "decks.Card": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "suit": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "decks.CreateNewDeckResponse": {
+            "type": "object",
+            "properties": {
+                "deck_id": {
+                    "type": "string"
+                },
+                "remaining": {
+                    "type": "integer"
+                },
+                "shuffled": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "decks.DrawCardResponse": {
+            "type": "object",
+            "properties": {
+                "cards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/decks.Card"
+                    }
+                }
+            }
+        },
+        "decks.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Expected something"
+                }
+            }
+        },
+        "decks.OpenDeckResponse": {
+            "type": "object",
+            "properties": {
+                "cards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/decks.Card"
+                    }
+                },
+                "deck_id": {
+                    "type": "string"
+                },
+                "remaining": {
+                    "type": "integer"
+                },
+                "shuffled": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

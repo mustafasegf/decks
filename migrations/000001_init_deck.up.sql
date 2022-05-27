@@ -1,0 +1,28 @@
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS decks (
+  uuid varchar(36) PRIMARY KEY,
+  id SERIAL,
+  shuffled BOOLEAN NOT NULL DEFAULT FALSE,
+  cards TEXT NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  deleted_at TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION set_updated_at()
+  RETURNS TRIGGER
+  LANGUAGE plpgsql
+AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER set_decks_updated_at
+  AFTER UPDATE ON decks
+  FOR EACH ROW
+    EXECUTE PROCEDURE set_updated_at();
+
+COMMIT;

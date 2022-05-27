@@ -1,0 +1,138 @@
+definitions:
+  decks.Card:
+    properties:
+      code:
+        type: string
+      suit:
+        type: string
+      value:
+        type: string
+    type: object
+  decks.CreateNewDeckResponse:
+    properties:
+      deck_id:
+        type: string
+      remaining:
+        type: integer
+      shuffled:
+        type: boolean
+    type: object
+  decks.DrawCardResponse:
+    properties:
+      cards:
+        items:
+          $ref: '#/definitions/decks.Card'
+        type: array
+    type: object
+  decks.ErrorResponse:
+    properties:
+      message:
+        example: Expected something
+        type: string
+    type: object
+  decks.OpenDeckResponse:
+    properties:
+      cards:
+        items:
+          $ref: '#/definitions/decks.Card'
+        type: array
+      deck_id:
+        type: string
+      remaining:
+        type: integer
+      shuffled:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /decks/create:
+    get:
+      description: Endpoint for creating a brand new deck.
+      parameters:
+      - description: cards
+        in: query
+        name: cards
+        type: string
+      - description: shuffled
+        in: query
+        name: shuffled
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/decks.CreateNewDeckResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/decks.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/decks.ErrorResponse'
+      summary: Create a new deck
+      tags:
+      - /decks
+  /decks/draw:
+    get:
+      description: Endpoint for draw cards.
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: count
+        in: query
+        name: count
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/decks.DrawCardResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/decks.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/decks.ErrorResponse'
+      summary: Draw a card from a deck
+      tags:
+      - /decks
+  /decks/open:
+    get:
+      description: Endpoint for returning whole deck.
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/decks.OpenDeckResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/decks.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/decks.ErrorResponse'
+      summary: Open a new deck
+      tags:
+      - /decks
+swagger: "2.0"
